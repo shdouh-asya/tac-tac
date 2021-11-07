@@ -1,5 +1,6 @@
+
 const playerLive =3; 
-const section = document.querySelector('section') ;
+const section = document.querySelector("section") ;
 
 const getData=()=>[ 
     {
@@ -14,7 +15,7 @@ const getData=()=>[
     },{
         imgSrc :"images//5.jpg" , id:"5"
     },{
-        imgSrc :"images//6.jpg" , id:"6"
+        imgSrc :"images//6.png" , id:"6"
     },
     {
         imgSrc :"images//1.png" , id:"1"
@@ -28,7 +29,7 @@ const getData=()=>[
     },{
         imgSrc :"images//5.jpg" , id:"5"
     },{
-        imgSrc :"images//6.jpg" , id:"6"
+        imgSrc :"images//6.png" , id:"6"
     },
 ]
 
@@ -36,15 +37,14 @@ const getData=()=>[
 const randomiz =()=> { 
     const cardData =getData() ;
     cardData.sort(()=>Math.random()-0.5) ; 
-    console.log(cardData);
+    return cardData ;
 }
-//randomiz();
 
 
 const cardGenerator=()=>{ 
     const cardData =randomiz(); 
     //for html 
-    cardData.forEach((el) => {
+    cardData.forEach((item) => {
     const card = document.createElement('div');
     const face = document.createElement('img'); 
     const back = document.createElement('div'); 
@@ -52,23 +52,28 @@ const cardGenerator=()=>{
     face.classList ="face" ;
     back.classList ="back" ; 
     
-    face=el.imgSrc ; 
+    face.src=item.imgSrc ; 
     
-
     // here is the html 
-    section.appendchild(card); 
+    section.appendChild(card); 
     card.appendChild(face);
     card.appendChild(back);  
-
-    card.addEventListener('click',function(e){ 
-        checkCards(e) ;
-    })
+   
+   card.addEventListener("click",(e)=>{
+       card.classList.toggle("ToggelCard");
+   })
     });
     
-}
+};
+
+
+
+
 
 function checkCards(e) { 
     const clickedCard = e.target;
     console.log(clickedCard) ;
 
 }
+cardGenerator();
+
