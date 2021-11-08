@@ -4,13 +4,11 @@ body{
     border: 3px solid black;
     height: 100vh;
     overflow: hidden;
-    /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "left right"; */
+  
 }
 
 .left{
-    /* grid-area: left; */
+    
     border-right: 5px solid white;
     background-color: black;
     font-weight: bold;
@@ -23,8 +21,7 @@ body{
 
 .right{
     background-color: black;
-    /* grid-area: right; */
-    /* border: 5px solid orange; */
+    
 }
 
 /* .grid-container{
@@ -87,7 +84,13 @@ section {
 
 
 
+.hide{ 
+    display: none;
+}
+.btn{ 
+    border-radius: 15px;
 
+}
 
 
 @media (max-width: 992px) {

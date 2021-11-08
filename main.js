@@ -1,6 +1,8 @@
 
 const playerLive =3; 
 const section = document.querySelector("section") ;
+const StartBtn=document.getElementById("btn"); 
+
 
 const getData=()=>[ 
     {
@@ -40,11 +42,12 @@ const randomiz =()=> {
     return cardData ;
 }
 
+let boxes = [];
 
 const cardGenerator=()=>{ 
     const cardData =randomiz(); 
     //for html 
-    cardData.forEach((item) => {
+    cardData.forEach((item ,idx) => {
     const card = document.createElement('div');
     const face = document.createElement('img'); 
     const back = document.createElement('div'); 
@@ -52,28 +55,93 @@ const cardGenerator=()=>{
     face.classList ="face" ;
     back.classList ="back" ; 
     
-    face.src=item.imgSrc ; 
+
+    face.src=item.imgSrc; 
+    
+    let objBox={};
+    let indexBox = boxes.findIndex(i => i.img == item.imgSrc);
+    if( indexBox != "-1"){
+        boxes[indexBox].box.push(idx);
+    }  
+    else
+        objBox = {img: item.imgSrc, box:[idx]}
+    boxes.push(objBox);
+
+    console.log(boxes);
     
     // here is the html 
+    card.id=idx;
+    card.onclick = function(){card.classList.toggle("ToggelCard"); flipcard(idx)};
+    
     section.appendChild(card); 
     card.appendChild(face);
     card.appendChild(back);  
    
-   card.addEventListener("click",(e)=>{
-       card.classList.toggle("ToggelCard");
-   })
+  
     });
     
 };
 
+let arr = [];
+let arrdiv = [];
+function flipcard(id){
+    
+    const clickedCard = document.getElementById(id);
+    
+    clickedCard.classList.add("flipper"); 
+    const flippedCard= document.querySelectorAll(".flipper"); 
+  
+    if(arr.length == 0){
+        arr.push(clickedCard.children[0].src);
+        arrdiv.push(clickedCard);
+    }   
+    else if(clickedCard.children[0].src == arr[0]){
+        console.log("match");
+        arr.pop();
+        arrdiv.pop();
+    }
+    else{
+        console.log("Not match");
+        
+        reSet(clickedCard); 
+        reSet(arrdiv[0]);
+        arrdiv.pop();
+        arr.pop();
+        console.log(clickedCard);
+    }
 
-
-
-
-function checkCards(e) { 
-    const clickedCard = e.target;
-    console.log(clickedCard) ;
-
+   
 }
-cardGenerator();
 
+
+function startGame() { 
+    StartBtn.classList.add("hide"); 
+    document.getElementById('timer').classList.remove('hide'); 
+    timer(); 
+    cardGenerator();
+}
+function timer(){
+    var sec = 59;
+    var timer = setInterval(function(){
+        document.getElementById('timer').innerHTML='00:'+sec;
+        sec--;
+        if (sec < 0) {
+            clearInterval(timer);
+        }
+    }, 1000);
+  }
+ StartBtn.addEventListener("click",()=>startGame()); 
+
+ function reSet(card){ 
+    var sec = .5;
+    var timer = setInterval(function(){
+        
+        console.log(sec); 
+        sec--;
+        if (sec < 0) {
+            clearInterval(timer);
+            card.classList.remove("ToggelCard"); 
+            console.log(card);
+        }
+    }, 1000);
+ }
